@@ -1,0 +1,267 @@
+/* Arsenal.module.css */
+
+.header {
+  margin-bottom: 18px;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  max-width: 760px;
+  opacity: 0.82;
+  line-height: 1.7;
+}
+
+.grid {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+}
+
+/* =========================
+   Card base + layers
+   ========================= */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border-radius: 18px;
+
+  /* важно: отдельный контекст слоёв */
+  isolation: isolate;
+
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(120, 120, 255, 0.06),
+    0 0 18px rgba(255, 80, 160, 0.04);
+}
+
+/* ✅ Ambient glow layer (существует ВСЕГДА) */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -140px;
+  pointer-events: none;
+
+  /* по умолчанию — слабый нейтральный glow (на всякий случай) */
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(120, 120, 255, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse at 75% 80%, rgba(255, 80, 160, 0.08) 0%, transparent 65%);
+
+  filter: blur(38px);
+  opacity: 1;
+
+  /* под контентом, но внутри карточки */
+  z-index: 0;
+}
+
+/* Rim (тонкая “дорогая” рамка) поверх всего */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.03)
+  );
+
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  z-index: 2;
+}
+
+/* =========================
+   Content
+   ========================= */
+
+.cardHead {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+
+.cardTop {
+  height: 1px;
+  width: 64px;
+  border-radius: 999px;
+  opacity: 0.95;
+
+  /* дефолт, если вдруг нет accent */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 80, 160, 0.70),
+    rgba(120, 120, 255, 0.70)
+  );
+}
+
+.lead {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.leadItem {
+  font-size: 13px;
+  padding: 8px 12px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  opacity: 0.93;
+
+  box-shadow:
+    0 0 18px rgba(120, 120, 255, 0.08),
+    0 0 18px rgba(255, 80, 160, 0.06);
+}
+
+/* =========================
+   Accents (set glow + top line)
+   ========================= */
+
+/* Pink */
+.accent_pink::before {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(255, 80, 160, 0.26) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 70%, rgba(120, 120, 255, 0.16) 0%, transparent 62%);
+}
+.accent_pink .cardTop {
+  background: linear-gradient(90deg, rgba(255, 80, 160, 0.90), rgba(120, 120, 255, 0.60));
+}
+.accent_pink .cardTitle {
+  text-shadow: 0 0 18px rgba(255, 80, 160, 0.10);
+}
+
+/* Violet */
+.accent_violet::before {
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(160, 90, 255, 0.26) 0%, transparent 58%),
+    radial-gradient(ellipse at 75% 75%, rgba(255, 80, 160, 0.12) 0%, transparent 62%);
+}
+.accent_violet .cardTop {
+  background: linear-gradient(90deg, rgba(160, 90, 255, 0.90), rgba(255, 80, 160, 0.55));
+}
+.accent_violet .cardTitle {
+  text-shadow: 0 0 18px rgba(160, 90, 255, 0.10);
+}
+
+/* Blue */
+.accent_blue::before {
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(120, 120, 255, 0.26) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 80%, rgba(120, 200, 255, 0.14) 0%, transparent 62%);
+}
+.accent_blue .cardTop {
+  background: linear-gradient(90deg, rgba(120, 120, 255, 0.90), rgba(80, 200, 255, 0.55));
+}
+.accent_blue .cardTitle {
+  text-shadow: 0 0 18px rgba(120, 120, 255, 0.10);
+}
+
+/* Cyan */
+.accent_cyan::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(80, 200, 255, 0.22) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 80%, rgba(120, 120, 255, 0.12) 0%, transparent 62%);
+}
+.accent_cyan .cardTop {
+  background: linear-gradient(90deg, rgba(80, 200, 255, 0.90), rgba(120, 120, 255, 0.55));
+}
+.accent_cyan .cardTitle {
+  text-shadow: 0 0 18px rgba(80, 200, 255, 0.10);
+}
+
+/* Mint */
+.accent_mint::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(120, 255, 200, 0.18) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 80%, rgba(120, 120, 255, 0.12) 0%, transparent 62%);
+}
+.accent_mint .cardTop {
+  background: linear-gradient(90deg, rgba(120, 255, 200, 0.80), rgba(120, 120, 255, 0.55));
+}
+.accent_mint .cardTitle {
+  text-shadow: 0 0 18px rgba(120, 255, 200, 0.10);
+}
+
+/* Amber */
+.accent_amber::before {
+  background:
+    radial-gradient(ellipse at 25% 30%, rgba(255, 200, 120, 0.18) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 80%, rgba(255, 80, 160, 0.10) 0%, transparent 62%);
+}
+.accent_amber .cardTop {
+  background: linear-gradient(90deg, rgba(255, 200, 120, 0.85), rgba(255, 80, 160, 0.55));
+}
+.accent_amber .cardTitle {
+  text-shadow: 0 0 18px rgba(255, 200, 120, 0.10);
+}
+
+/* =========================
+   Mobile
+   ========================= */
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .cardHead {
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .cardTitle {
+    font-size: 18px;
+  }
+
+  .lead {
+    gap: 8px;
+  }
+
+  .leadItem {
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .leadItem {
+    font-size: 11px;
+    padding: 6px 9px;
+  }
+}

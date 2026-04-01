@@ -1,0 +1,261 @@
+.cardLink {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  border-radius: 18px;
+  isolation: isolate;
+
+  height: 100%;
+  min-height: 180px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.35),
+    0 0 22px rgba(120, 120, 255, 0.06),
+    0 0 18px rgba(255, 80, 160, 0.04);
+
+  transition:
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -140px;
+  pointer-events: none;
+  filter: blur(38px);
+  opacity: 0.95;
+  z-index: 0;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 18px;
+  padding: 1px;
+
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18),
+    rgba(255, 255, 255, 0.03)
+  );
+
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask-composite: exclude;
+
+  z-index: 2;
+}
+
+.cardHead,
+.desc,
+.stack {
+  position: relative;
+  z-index: 1;
+}
+
+.cardHead {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  line-height: 1.25;
+}
+
+.line {
+  width: 64px;
+  height: 1px;
+  border-radius: 999px;
+  opacity: 0.95;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 80, 160, 0.70),
+    rgba(120, 120, 255, 0.70)
+  );
+
+  background-size: 200% 100%;
+  animation: cardLineShift 6s ease-in-out infinite;
+}
+
+.desc {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.65;
+  opacity: 0.88;
+}
+
+.stack {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
+  opacity: 0.74;
+  letter-spacing: 0.1px;
+}
+
+/* hover */
+
+.cardLink:hover .card {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.40),
+    0 0 22px rgba(120, 120, 255, 0.18),
+    0 0 18px rgba(255, 80, 160, 0.15);
+}
+
+.cardLink:hover .card::before {
+  opacity: 1.25;
+  transform: scale(1.03);
+}
+
+/* FULLSTACK → pink (intentionally brightest) */
+
+.accent_pink::before {
+  background:
+    radial-gradient(ellipse at 20% 25%, rgba(255, 80, 160, 0.24) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 75%, rgba(120, 120, 255, 0.13) 0%, transparent 60%);
+}
+
+.accent_pink .line {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 80, 160, 0.92),
+    rgba(120, 120, 255, 0.62)
+  );
+  background-size: 200% 100%;
+}
+
+.accent_pink .title {
+  text-shadow: 0 0 18px rgba(255, 80, 160, 0.10);
+}
+
+/* FRONTEND → blue */
+
+.accent_blue::before {
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(120, 120, 255, 0.24) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(80, 200, 255, 0.13) 0%, transparent 60%);
+}
+
+.accent_blue .line {
+  background: linear-gradient(
+    90deg,
+    rgba(120, 120, 255, 0.92),
+    rgba(80, 200, 255, 0.58)
+  );
+  background-size: 200% 100%;
+}
+
+.accent_blue .title {
+  text-shadow: 0 0 18px rgba(120, 120, 255, 0.10);
+}
+
+/* BACKEND → mint */
+
+.accent_mint::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(120, 255, 200, 0.18) 0%, transparent 58%),
+    radial-gradient(ellipse at 80% 80%, rgba(120, 120, 255, 0.12) 0%, transparent 62%);
+}
+
+.accent_mint .line {
+  background: linear-gradient(
+    90deg,
+    rgba(120, 255, 200, 0.82),
+    rgba(120, 120, 255, 0.58)
+  );
+  background-size: 200% 100%;
+}
+
+.accent_mint .title {
+  text-shadow: 0 0 18px rgba(120, 255, 200, 0.10);
+}
+
+/* animation */
+
+@keyframes cardLineShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* mobile */
+
+@media (max-width: 900px) {
+  .card {
+    min-height: auto;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+
+  .desc {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 16px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .desc {
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .stack {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 14px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+}

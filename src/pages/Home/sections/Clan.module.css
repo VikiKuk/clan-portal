@@ -1,0 +1,312 @@
+/* ===== Layout ===== */
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header header"
+    "left right"
+    "contract contract";
+  gap: 70px;
+  align-items: start;
+}
+
+/* заголовок секции — отдельной строкой, чтобы правый блок начинался от текста */
+.header {
+  grid-area: header;
+  margin-bottom: -30px; /* компенсируем общий gap, чтобы не было “слишком высоко” */
+}
+
+.left {
+  grid-area: left;
+  max-width: 680px;
+}
+
+.right {
+  grid-area: right;
+  display: grid;
+  gap: 18px;
+  align-content: start;
+}
+
+/* ===== Intro text ===== */
+
+.intro {
+  line-height: 1.75;
+  opacity: 0.86;
+}
+
+.intro p {
+  margin: 0 0 14px;
+}
+
+.intro p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Role cards ===== */
+
+.roleCard {
+  position: relative;
+  overflow: hidden;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.roleCard::before {
+  content: "";
+  position: absolute;
+  inset: -120px;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 30% 25%,
+      rgba(255, 80, 160, 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(ellipse at 70% 65%,
+      rgba(120, 120, 255, 0.16) 0%,
+      transparent 60%
+    );
+  filter: blur(30px);
+  opacity: 0.9;
+}
+
+.roleTitle {
+  margin: 0 0 10px;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+  position: relative;
+  z-index: 1;
+}
+
+.roleList {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.7;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Contract row ===== */
+
+.contract {
+  grid-area: contract;
+  margin-top: 18px;
+  padding: 22px;
+
+  position: relative;
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 18px;
+  align-items: center;
+}
+
+.contract::before {
+  content: "";
+  position: absolute;
+  inset: -120px;
+  pointer-events: none;
+
+  background:
+    radial-gradient(ellipse at 20% 30%,
+      rgba(255, 80, 160, 0.18) 0%,
+      transparent 55%
+    ),
+    radial-gradient(ellipse at 80% 70%,
+      rgba(120, 120, 255, 0.16) 0%,
+      transparent 60%
+    );
+
+  filter: blur(30px);
+  opacity: 0.9;
+}
+
+.contractLeft,
+.contractRight {
+  position: relative;
+  z-index: 1;
+}
+
+.contractTitle {
+  margin: 0 0 12px;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+
+.contractList {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.7;
+  opacity: 0.9;
+}
+
+.contractRight {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+
+
+
+/* ===== CV cards ===== */
+
+.cvCard {
+  width: 106px;
+  min-height: 72px;
+
+  display: grid;
+  align-content: center;
+  gap: 6px;
+
+  padding: 12px 14px;
+  text-decoration: none;
+  color: #fff;
+
+  border-radius: 18px;
+  border: none;
+
+  background: linear-gradient(
+    90deg,
+    rgba(255, 80, 160, 0.85),   /* розовый слева */
+    rgba(120, 120, 255, 0.85)   /* фиолетовый справа */
+  );
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.cvCard:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(120, 120, 255, 0.85),  /* фиолетовый слева */
+    rgba(255, 80, 160, 0.85)    /* розовый справа */
+  );
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.28);
+}
+
+.cvCard:active {
+  transform: translateY(-1px) scale(0.985);
+}
+
+.cvCard:focus-visible {
+  outline: none;
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.05),
+    0 0 20px rgba(255, 80, 160, 0.16),
+    0 0 24px rgba(120, 120, 255, 0.16);
+}
+
+.cvLabel,
+.cvName {
+  position: relative;
+  z-index: 1;
+}
+
+.cvLabel {
+  font-size: 15px;
+  letter-spacing: 1px;
+  opacity: 0.85;
+  text-transform: uppercase;
+}
+
+.cvName {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* ===== Mobile ===== */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "left"
+      "right"
+      "contract";
+    gap: 22px;
+  }
+
+  .header {
+    margin-bottom: 0;
+  }
+
+  .contract {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .contractRight {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "left"
+      "right"
+      "contract";
+    gap: 22px;
+  }
+
+  .header {
+    margin-bottom: 0;
+  }
+
+  .right {
+    gap: 14px;
+  }
+
+  .roleCard {
+    padding: 16px;
+  }
+
+  .roleTitle,
+  .contractTitle {
+    font-size: 18px;
+  }
+
+  .contract {
+    grid-template-columns: 1fr;
+    align-items: start;
+    padding: 18px;
+  }
+
+  .contractRight {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cvCard {
+    width: 100%;
+    min-height: 64px;
+  }
+
+  .contractRight {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+}
