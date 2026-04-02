@@ -8,12 +8,14 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal {
   position: relative;
   width: min(1080px, 100%);
-  max-height: 90vh;
+  max-height: calc(var(--app-height, 100dvh) - 24px);
   overflow-y: auto;
   border-radius: 22px;
   background: rgba(240, 239, 245, 0.96);
@@ -31,6 +33,7 @@
   font-size: 34px;
   line-height: 1;
   cursor: pointer;
+  z-index: 3;
 }
 
 .content {
@@ -132,11 +135,28 @@
   border: 1px solid rgba(23, 20, 31, 0.08);
 }
 
+.mediaButton {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: zoom-in;
+}
+
 .image {
   width: 100%;
   display: block;
   max-height: 560px;
   object-fit: contain;
+}
+
+.video {
+  width: 100%;
+  max-height: 560px;
+  display: block;
+  object-fit: contain;
+  background: #000;
 }
 
 .arrowLeft,
@@ -200,15 +220,6 @@
   color: rgba(23, 20, 31, 0.6);
 }
 
-
-.video {
-  width: 100%;
-  max-height: 560px;
-  display: block;
-  object-fit: contain;
-  background: #000;
-}
-
 .videoThumb {
   position: relative;
   width: 100%;
@@ -239,12 +250,79 @@
   line-height: 1;
 }
 
+/* Fullscreen lightbox */
+
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(5, 4, 14, 0.94);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.lightboxContent {
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 90dvh;
+  width: auto;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  z-index: 2;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 36px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lightboxArrowLeft,
+.lightboxArrowRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.lightboxArrowLeft {
+  left: 16px;
+}
+
+.lightboxArrowRight {
+  right: 16px;
+}
+
 @media (max-width: 900px) {
   .modal {
     padding: 20px;
   }
 
-  .image {
+  .image,
+  .video {
     max-height: 360px;
   }
 
@@ -262,7 +340,7 @@
   .modal {
     padding: 18px;
     border-radius: 18px;
-    max-height: 92vh;
+    max-height: calc(var(--app-height, 100dvh) - 24px);
   }
 
   .content {
@@ -294,6 +372,36 @@
     width: 72px;
     height: 54px;
   }
+
+  .lightboxOverlay {
+    padding: 12px;
+  }
+
+  .lightboxImage {
+    max-height: 84dvh;
+    border-radius: 12px;
+  }
+
+  .lightboxClose {
+    top: 10px;
+    right: 12px;
+    font-size: 32px;
+  }
+
+  .lightboxArrowLeft,
+  .lightboxArrowRight {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .lightboxArrowLeft {
+    left: 8px;
+  }
+
+  .lightboxArrowRight {
+    right: 8px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -304,6 +412,7 @@
   .modal {
     padding: 16px;
     border-radius: 16px;
+    max-height: calc(var(--app-height, 100dvh) - 16px);
   }
 
   .close {
@@ -329,5 +438,28 @@
   .thumb {
     width: 64px;
     height: 48px;
+  }
+
+  .lightboxOverlay {
+    padding: 8px;
+  }
+
+  .lightboxImage {
+    max-height: 82dvh;
+  }
+
+  .lightboxArrowLeft,
+  .lightboxArrowRight {
+    top: auto;
+    bottom: 14px;
+    transform: none;
+  }
+
+  .lightboxArrowLeft {
+    left: 14px;
+  }
+
+  .lightboxArrowRight {
+    right: 14px;
   }
 }

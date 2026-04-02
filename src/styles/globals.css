@@ -143,6 +143,8 @@ a { color: inherit; }
   color: inherit;
   padding: 10px 12px;
   outline: none;
+  font-size: 16px;
+  font-family: inherit;
 }
 
 .textarea { min-height: 120px; resize: vertical; }

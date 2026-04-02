@@ -273,8 +273,17 @@
     margin-bottom: 0;
   }
 
+  .left {
+    max-width: none;
+  }
+
   .right {
     gap: 14px;
+  }
+
+  .intro {
+    font-size: 18px;
+    line-height: 1.8;
   }
 
   .roleCard {
@@ -283,7 +292,13 @@
 
   .roleTitle,
   .contractTitle {
+    font-size: 19px;
+  }
+
+  .roleList,
+  .contractList {
     font-size: 18px;
+    line-height: 1.75;
   }
 
   .contract {
@@ -297,12 +312,45 @@
     flex-wrap: wrap;
     gap: 10px;
   }
+
+  .cvLabel {
+    font-size: 14px;
+  }
+
+  .cvName {
+    font-size: 17px;
+  }
 }
 
 @media (max-width: 480px) {
+  .intro {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .roleTitle,
+  .contractTitle {
+    font-size: 19px;
+  }
+
+  .roleList,
+  .contractList {
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
   .cvCard {
     width: 100%;
     min-height: 64px;
+    padding: 12px 14px;
+  }
+
+  .cvLabel {
+    font-size: 13px;
+  }
+
+  .cvName {
+    font-size: 16px;
   }
 
   .contractRight {

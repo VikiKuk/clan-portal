@@ -67,7 +67,6 @@ export default function Clan() {
             </div>
 
             <div className={styles.contractRight}>
-              {/* заглушка ссылки — не забыть вставить Веронику */}
               <a className={styles.cvCard} href={veronikaCV} target="_blank" rel="noopener noreferrer">
                 <span className={styles.cvLabel}>CV</span>
                 <span className={styles.cvName}>Veronika</span>
