@@ -47,7 +47,7 @@ export const translations = {
     }  
   },
   ru: {
-    nav: { home: "главная", clan: "клан", arsenal: "арсенал", projects: "проекты", contact: "контакт" },
+    nav: { home: "главная", clan: "клан", arsenal: "арсенал", projects: "проекты", contact: "контакты" },
     hero: {
       title: "<Клан Синяговых/>",
       subtitle: "Базы данных + фулстек-разработка",
@@ -55,7 +55,7 @@ export const translations = {
       ctaWork: "Работать с кланом",
     },
     clan: {
-      title: "<clan/>",
+      title: "<клан/>",
       intro: [
         "Мы - Вероника и Дмитрий. Работаем как вместе, так и независимо, объединяя инженерную глубину и бизнес-мышление.",
         "Дмитрий специализируется на высокопроизводительных базах данных: хранимые процедуры, оптимизация, миграции данных и многомерная отчётность.",
@@ -79,7 +79,7 @@ export const translations = {
     common: { lang: "Язык" },
 
     projects: {
-      title: "<projects/>",
+      title: "<проекты/>",
       intro: "Избранные проекты по full-stack, frontend и backend разработке. Вы можете нажать на изображение, чтобы узнать больше",
       categories: {
         fullstack: "Full-stack системы",

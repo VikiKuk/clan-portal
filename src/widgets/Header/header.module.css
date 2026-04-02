@@ -77,6 +77,26 @@
   opacity: 1;
 }
 
+.linkActive {
+  opacity: 1;
+  position: relative;
+}
+
+.linkActive::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 80, 160, 0.85),
+    rgba(120, 120, 255, 0.85)
+  );
+}
+
 .lang {
   display: flex;
   align-items: center;
