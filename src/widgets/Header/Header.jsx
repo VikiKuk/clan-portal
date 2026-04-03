@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./header.module.css";
 import { useI18n } from "../../shared/i18n/useI18n.js";
 
@@ -8,6 +8,7 @@ export default function Header() {
   const { lang, setLang, t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const headerRef = useRef(null);
 
   useEffect(() => {
     const initialHash = window.location.hash.replace("#", "");
@@ -70,6 +71,21 @@ export default function Header() {
     };
   }, []);
 
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+
+    if (menuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = originalOverflow;
+    }
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [menuOpen]);
+
+
   function scrollToSection(id) {
     const el = document.getElementById(id);
 
@@ -91,99 +107,105 @@ export default function Header() {
   }
 
   return (
-    <header className={styles.header}>
-      <div className={styles.inner}>
-        <a
-          href="#home"
-          className={styles.logo}
-          onClick={(e) => {
-            e.preventDefault();
-            scrollToSection("home");
-          }}
-        >
-          {"<SN/>"}
-        </a>
-
-        <nav
-          id="mobile-navigation"
-          className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
-        >
-          <button
-            type="button"
-            className={getLinkClass("home")}
-            onClick={() => scrollToSection("home")}
+    <>
+      <div
+        className={`${styles.overlay} ${menuOpen ? styles.overlayOpen : ""}`}
+        onClick={() => setMenuOpen(false)}
+      />
+      <header ref={headerRef} className={styles.header}>
+        <div className={styles.inner}>
+          <a
+            href="#home"
+            className={styles.logo}
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToSection("home");
+            }}
           >
-            {t("nav.home")}
-          </button>
+            {"<SN/>"}
+          </a>
 
-          <button
-            type="button"
-            className={getLinkClass("clan")}
-            onClick={() => scrollToSection("clan")}
+          <nav
+            id="mobile-navigation"
+            className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}
           >
-            {t("nav.clan")}
-          </button>
-
-          <button
-            type="button"
-            className={getLinkClass("arsenal")}
-            onClick={() => scrollToSection("arsenal")}
-          >
-            {t("nav.arsenal")}
-          </button>
-
-          <button
-            type="button"
-            className={getLinkClass("projects")}
-            onClick={() => scrollToSection("projects")}
-          >
-            {t("nav.projects")}
-          </button>
-
-          <button
-            type="button"
-            className={getLinkClass("contact")}
-            onClick={() => scrollToSection("contact")}
-          >
-            {t("nav.contact")}
-          </button>
-        </nav>
-
-        <div className={styles.controls}>
-          <div className={styles.lang}>
             <button
               type="button"
-              className={`${styles.langBtn} ${lang === "ru" ? styles.active : ""}`}
-              onClick={() => setLang("ru")}
+              className={getLinkClass("home")}
+              onClick={() => scrollToSection("home")}
             >
-              RU
+              {t("nav.home")}
             </button>
 
-            <span className={styles.sep}>|</span>
+            <button
+              type="button"
+              className={getLinkClass("clan")}
+              onClick={() => scrollToSection("clan")}
+            >
+              {t("nav.clan")}
+            </button>
 
             <button
               type="button"
-              className={`${styles.langBtn} ${lang === "en" ? styles.active : ""}`}
-              onClick={() => setLang("en")}
+              className={getLinkClass("arsenal")}
+              onClick={() => scrollToSection("arsenal")}
             >
-              EN
+              {t("nav.arsenal")}
+            </button>
+
+            <button
+              type="button"
+              className={getLinkClass("projects")}
+              onClick={() => scrollToSection("projects")}
+            >
+              {t("nav.projects")}
+            </button>
+
+            <button
+              type="button"
+              className={getLinkClass("contact")}
+              onClick={() => scrollToSection("contact")}
+            >
+              {t("nav.contact")}
+            </button>
+          </nav>
+
+          <div className={styles.controls}>
+            <div className={styles.lang}>
+              <button
+                type="button"
+                className={`${styles.langBtn} ${lang === "ru" ? styles.active : ""}`}
+                onClick={() => setLang("ru")}
+              >
+                RU
+              </button>
+
+              <span className={styles.sep}>|</span>
+
+              <button
+                type="button"
+                className={`${styles.langBtn} ${lang === "en" ? styles.active : ""}`}
+                onClick={() => setLang("en")}
+              >
+                EN
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ""}`}
+              onClick={toggleMenu}
+              aria-label="Toggle navigation menu"
+              aria-expanded={menuOpen}
+              aria-controls="mobile-navigation"
+            >
+              <span />
+              <span />
+              <span />
             </button>
           </div>
-
-          <button
-            type="button"
-            className={`${styles.burger} ${menuOpen ? styles.burgerOpen : ""}`}
-            onClick={toggleMenu}
-            aria-label="Toggle navigation menu"
-            aria-expanded={menuOpen}
-            aria-controls="mobile-navigation"
-          >
-            <span />
-            <span />
-            <span />
-          </button>
         </div>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }
