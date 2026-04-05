@@ -27,6 +27,11 @@ export default function Header() {
     let ticking = false;
 
     function updateActiveSection() {
+      if (menuOpen) {
+        ticking = false;
+        return;
+      }
+
       const offset = window.innerWidth <= 768 ? 110 : 90;
 
       if (window.scrollY < 80) {
@@ -80,7 +85,7 @@ export default function Header() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
     };
-  }, []);
+  }, [menuOpen]);
 
   useEffect(() => {
     if (!menuOpen) return undefined;
