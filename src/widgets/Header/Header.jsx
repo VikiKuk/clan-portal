@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./header.module.css";
 import { useI18n } from "../../shared/i18n/useI18n.js";
 
@@ -8,6 +8,8 @@ export default function Header() {
   const { lang, setLang, t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const [pendingSection, setPendingSection] = useState(null);
+  const skipRestoreScrollRef = useRef(false);
 
   useEffect(() => {
     const initialHash = window.location.hash.replace("#", "");
@@ -25,26 +27,36 @@ export default function Header() {
     let ticking = false;
 
     function updateActiveSection() {
-      const viewportCenter = window.innerHeight * 0.42;
+      const offset = window.innerWidth <= 768 ? 110 : 90;
 
-      let closestId = SECTION_IDS[0];
-      let closestDistance = Number.POSITIVE_INFINITY;
+      if (window.scrollY < 80) {
+        setActiveSection((prev) => {
+          if (prev !== "home") {
+            window.history.replaceState(null, "", "#home");
+            return "home";
+          }
+          return prev;
+        });
+        ticking = false;
+        return;
+      }
+
+      let currentId = "home";
 
       for (const section of sections) {
         const rect = section.getBoundingClientRect();
-        const sectionCenter = rect.top + rect.height / 2;
-        const distance = Math.abs(sectionCenter - viewportCenter);
 
-        if (distance < closestDistance) {
-          closestDistance = distance;
-          closestId = section.id;
+        if (rect.top <= offset) {
+          currentId = section.id;
+        } else {
+          break;
         }
       }
 
       setActiveSection((prev) => {
-        if (prev !== closestId) {
-          window.history.replaceState(null, "", `#${closestId}`);
-          return closestId;
+        if (prev !== currentId) {
+          window.history.replaceState(null, "", `#${currentId}`);
+          return currentId;
         }
         return prev;
       });
@@ -102,11 +114,41 @@ export default function Header() {
       document.body.style.width = originalBodyWidth;
       document.body.style.touchAction = originalBodyTouchAction;
 
-      window.scrollTo(0, scrollY);
+      if (!skipRestoreScrollRef.current) {
+        window.scrollTo(0, scrollY);
+      }
+
+      skipRestoreScrollRef.current = false;
     };
   }, [menuOpen]);
 
+  useEffect(() => {
+    if (menuOpen || !pendingSection) return undefined;
+
+    const el = document.getElementById(pendingSection);
+
+    if (el) {
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        window.history.replaceState(null, "", `#${pendingSection}`);
+        setActiveSection(pendingSection);
+        setPendingSection(null);
+      });
+    } else {
+      setPendingSection(null);
+    }
+
+    return undefined;
+  }, [menuOpen, pendingSection]);
+
   function scrollToSection(id) {
+    if (menuOpen) {
+      skipRestoreScrollRef.current = true;
+      setPendingSection(id);
+      setMenuOpen(false);
+      return;
+    }
+
     const el = document.getElementById(id);
 
     if (el) {
@@ -114,8 +156,6 @@ export default function Header() {
       window.history.replaceState(null, "", `#${id}`);
       setActiveSection(id);
     }
-
-    setMenuOpen(false);
   }
 
   function toggleMenu() {
