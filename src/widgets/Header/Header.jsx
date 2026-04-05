@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import { useI18n } from "../../shared/i18n/useI18n.js";
 
@@ -8,7 +8,6 @@ export default function Header() {
   const { lang, setLang, t } = useI18n();
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
-  const headerRef = useRef(null);
 
   useEffect(() => {
     const initialHash = window.location.hash.replace("#", "");
@@ -72,19 +71,40 @@ export default function Header() {
   }, []);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
+    if (!menuOpen) return undefined;
 
-    if (menuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = originalOverflow;
-    }
+    const scrollY = window.scrollY;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
+    const originalBodyPosition = document.body.style.position;
+    const originalBodyTop = document.body.style.top;
+    const originalBodyLeft = document.body.style.left;
+    const originalBodyRight = document.body.style.right;
+    const originalBodyWidth = document.body.style.width;
+    const originalBodyTouchAction = document.body.style.touchAction;
+
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.touchAction = "none";
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
+      document.body.style.position = originalBodyPosition;
+      document.body.style.top = originalBodyTop;
+      document.body.style.left = originalBodyLeft;
+      document.body.style.right = originalBodyRight;
+      document.body.style.width = originalBodyWidth;
+      document.body.style.touchAction = originalBodyTouchAction;
+
+      window.scrollTo(0, scrollY);
     };
   }, [menuOpen]);
-
 
   function scrollToSection(id) {
     const el = document.getElementById(id);
@@ -112,7 +132,8 @@ export default function Header() {
         className={`${styles.overlay} ${menuOpen ? styles.overlayOpen : ""}`}
         onClick={() => setMenuOpen(false)}
       />
-      <header ref={headerRef} className={styles.header}>
+
+      <header className={styles.header}>
         <div className={styles.inner}>
           <a
             href="#home"

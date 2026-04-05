@@ -201,6 +201,10 @@ a { color: inherit; }
 }
 
 @media (max-width: 768px) {
+  main {
+    padding-top: 64px;
+  }
+
   .section {
     padding: 40px 0;
     scroll-margin-top: 76px;

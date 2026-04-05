@@ -229,8 +229,6 @@
     right: 14px;
     z-index: 110;
     max-height: calc(100dvh - 72px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
 
     margin-left: 0;
     flex-direction: column;
@@ -239,8 +237,11 @@
     background: rgba(10, 8, 24, 0.97);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 14px;
-    overflow: hidden;
     box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .navOpen {

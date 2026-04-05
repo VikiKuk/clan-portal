@@ -14,9 +14,9 @@ export default function Home() {
       const el = document.getElementById(id);
 
       if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 0);
+        requestAnimationFrame(() => {
+          el.scrollIntoView({ behavior: "auto", block: "start" });
+        });
       }
     }
   }, []);
